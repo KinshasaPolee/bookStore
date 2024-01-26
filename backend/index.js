@@ -1,7 +1,7 @@
 import express from "express";
 import { PORT, mongoDbUrl } from "./config.js";
 import mongoose from "mongoose";
-import {Book} from "./collections/search.js";
+import { Book } from "./collections/search.js";
 
 const app = express();
 // Middleware
@@ -59,9 +59,9 @@ app.get("/books/:id", async (request, response) => {
 
         const { id } = request.params;
 
-        const book = await Book.findById({id});
+        const book = await Book.findById({ id });
 
-        return response.status(200).json({book);
+        return response.status(200).json({ book});
     } catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });
@@ -85,8 +85,8 @@ app.put("/books/:id", async (request, response) => {
 
         const result = await Book.findByIdAndUpdate(id, request.body);
 
-            if(!result) {
-        return response.status(404).json({ message: "Book not found" });
+        if (!result) {
+            return response.status(404).json({ message: "Book not found" });
         }
 
         return response.status(200).send({ message: "Book successfully updated" });
@@ -105,11 +105,11 @@ app.delete("/books/:id", async (request, response) => {
 
         const result = await Book.findByIdAndDelete(id);
 
-        if(!result) {
+        if (!result) {
             return response.status(404).json({ message: "Book not found" });
-            }   
+        }
 
-            return response.status(200).send({ message: "Book successfully updated" });
+        return response.status(200).send({ message: "Book successfully updated" });
 
     } catch (error) {
         console.log(error.message);
@@ -118,13 +118,13 @@ app.delete("/books/:id", async (request, response) => {
 });
 
 mongoose
-.connect(mongoDbUrl)
-.then(() => {
-console.log("App connected to database");
-app.listen(PORT, () => {
-    console.log(`App is listening to port: ${PORT}`)
-});
-})
-.catch((error) => {
-    console.log(error);
-});
+    .connect(mongoDbUrl)
+    .then(() => {
+        console.log("App connected to database");
+        app.listen(PORT, () => {
+            console.log(`App is listening to port: ${PORT}`)
+        });
+    })
+    .catch((error) => {
+        console.log(error);
+    });
